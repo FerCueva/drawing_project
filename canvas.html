@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title> canvas assignment</title>
+
+	<style type="text/css">
+
+		canvas{
+			border: 1px solid black;
+		}
+	</style>
+
+</head>
+
+<body>
+
+<canvas id="canvas">
+This is a blank canvas designed to draw anything you want.
+</canvas>
+
+<script>
+	var canvas = document.querySelector('canvas');
+	var ctx = canvas.getContext('2d');
+	canvas.width = window.innerWidth * 0.8;
+	canvas.height = window.innerHeight * 0.8;
+	var radius = 5;
+	var color = 'red';
+	function draw(){
+		ctx.beginPath();
+		ctx.fillStyle = color;
+		ctx.arc(x,y,radius,0,2*Math.PI);
+		ctx.fill();
+	}
+
+	function changeColor(newColor){
+		console.log("color picked: ",newColor);
+		color=newColor;
+	}
+
+	window.addEventListener('mousemove', function(e) {
+		x = e.pageX;
+		y = e.pageY;
+		draw();
+	})
+
+	window.addEventListener('keydown', function(e) {
+		switch(e.key){
+			case "b":
+				console.log("Change color to Blue");
+				color="blue";
+				break;
+
+			case "g":
+				console.log("Change color to Green");
+				color="green";
+				break;
+
+			case "r":
+				console.log("Change color to Red");
+				color="red";
+				break;
+
+			case "y":
+				console.log("Change color to Yellow");
+				color="yellow";
+				break;
+
+			case "ArrowUp":
+				console.log("Increase Radius",radius+1);
+				radius += 1;
+				break;
+
+			case "ArrowDown":
+				console.log("Decrease Radius:",radius-1);
+				if(radius>1){
+					radius -=1;
+				}
+				else{
+					console.log("Radius cannot be zero.")
+				}
+				break;
+
+			case " ":
+				console.log("Clear Screen");
+				ctx.clearRect(0,0,canvas.width, canvas.height);
+				break;
+		}
+	})
+
+	window.addEventListener("orientationchange", function(e) {
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+}, false);
+
+	window.addEventListener('touchmove', function(e) {
+		var touch = e.touches[0];
+		console.log("x:", touch.clientX, "  ", "y:", touch.clientY);
+		x = touch.clientX;
+		y = touch.clientY;
+		draw();
+	})
+
+
+</script>
+
+	<div>
+		<input type="color" value="#FFFFFF" onchange="changeColor(value)">
+		<label> Select New Color</label>
+	</div>
+
+</body>
+
+</html>
